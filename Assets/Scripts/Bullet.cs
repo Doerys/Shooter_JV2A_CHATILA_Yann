@@ -4,21 +4,29 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public Rigidbody2D monRigidBody;
+    private Rigidbody2D myRigidbody;
     public float speed;
 
-    public GameObject bonus;
-
-    public Player myPlayer;
+    public GameObject bonusPrefab;
 
     private Alien myTarget;
+
+    public VariableLibrary library;
 
     // Start is called before the first frame update
     void Start()
     {
-        monRigidBody.velocity = Vector3.up * speed;
+        myRigidbody = gameObject.GetComponent<Rigidbody2D>();
+        myRigidbody.velocity = Vector3.up * speed;
+        library = FindObjectOfType<VariableLibrary>();
+    }
 
-        myPlayer = gameObject.GetComponent<Player>();
+    void Update()
+    {
+        if (transform.position.y > library.limitT.position.y)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -40,7 +48,7 @@ public class Bullet : MonoBehaviour
 
                 if (spawnProbability < 2)
                 {
-                    Instantiate(bonus, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
+                    Instantiate(bonusPrefab, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
                 }
             }
         }

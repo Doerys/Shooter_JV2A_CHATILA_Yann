@@ -162,10 +162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9e90b22d5293a4894afc94eb6acbc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monRigidBody: {fileID: 6863447708074395207}
   speed: 12
-  bonus: {fileID: 259293015754129458, guid: a1db92bb555429b4e9a19033b69b6b22, type: 3}
-  myPlayer: {fileID: 0}
+  bonusPrefab: {fileID: 259293015754129458, guid: a1db92bb555429b4e9a19033b69b6b22, type: 3}
+  library: {fileID: 0}
 --- !u!96 &5144115588052714144
 TrailRenderer:
   serializedVersion: 3
