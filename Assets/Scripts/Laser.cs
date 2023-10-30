@@ -2,33 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Laser : MonoBehaviour
 {
-    private Rigidbody2D myRigidbody;
-    public float speed;
-
-    public string typeBullet;
-
-    public GameObject bonusPrefab;
+    Player myPlayer;
 
     private Alien myTarget;
 
-    public VariableLibrary library;
+    public GameObject bonusPrefab;
+
+    private float timer;
 
     // Start is called before the first frame update
     void Start()
     {
-        myRigidbody = gameObject.GetComponent<Rigidbody2D>();
-        myRigidbody.velocity = Vector3.up * speed;
-        library = FindObjectOfType<VariableLibrary>();
+        myPlayer = FindObjectOfType<Player>();
     }
 
+    // Update is called once per frame
     void Update()
     {
-        if (transform.position.y > library.limitT.position.y)
+        timer += Time.deltaTime;
+
+        if (timer >= 1.5f)
         {
             Destroy(gameObject);
         }
+
+        float yPosition = myPlayer.transform.position.y;
+
+        transform.position.y = yPosition;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -39,7 +41,6 @@ public class Bullet : MonoBehaviour
             myTarget = collision.gameObject.GetComponent<Alien>();
 
             myTarget.remainHealth -= 1;
-            Destroy(gameObject);
 
             if (myTarget.remainHealth == 0)
             {

@@ -6,6 +6,7 @@ using TMPro;
 public class Player : MonoBehaviour
 {
     public GameObject bullet;
+    public GameObject laserPrefab;
     public Transform parent;
     public Transform limitL;
     public Transform limitR;
@@ -17,6 +18,9 @@ public class Player : MonoBehaviour
     public Weapons actualWeapon = Weapons.ClassicBullet;
 
     public int alienRemain = 48;
+
+    private float timerLaserAbility = 3;
+    private bool decreaseTimerLaser = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,24 +36,6 @@ public class Player : MonoBehaviour
         mousePos.y = -4.57f;
         transform.position = mousePos;
 
-        /*if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
-            transform.position += Vector3.left*speed;
-        }
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
-            transform.position += Vector3.right*speed;
-        }
-
-        if(transform.position.x < limitL.position.x)
-        {
-            transform.position = new Vector3(limitR.position.x, transform.position.y, transform.position.z);
-        }
-        if (transform.position.x > limitR.position.x)
-        {
-            transform.position = new Vector3(limitL.position.x, transform.position.y, transform.position.z);
-        }*/
-
         if (Input.GetMouseButtonDown(0))
         {
             switch (actualWeapon)
@@ -59,9 +45,32 @@ public class Player : MonoBehaviour
                     break;
                 case Weapons.DoubleBullet:
 
+                    Vector3 temporaryPosition;
+                    
+                    temporaryPosition = parent.position;
+
+                    temporaryPosition.x -= 1;
+
                     for (int i = 0; i < 2; i++)
                     {
-                        Instantiate(bullet, parent.position, parent.rotation);
+                        Instantiate(bullet, temporaryPosition, parent.rotation);
+
+                        temporaryPosition.x += 2;
+                    }
+                    break;
+
+                case Weapons.Laser:
+                    {
+                        if (timerLaserAbility >= 1.5f)
+                        {
+                            Vector3 position = parent.position;
+
+                            position.y = parent.position.y + 2;
+
+                            Instantiate(laserPrefab, position, parent.rotation);
+
+                            timerLaserAbility = 0;
+                        }
                     }
                     break;
                 default:
@@ -69,9 +78,30 @@ public class Player : MonoBehaviour
             }
         }
 
+        Debug.Log(timerLaserAbility);
+
+        if (decreaseTimerLaser)
+        {
+            if (timerLaserAbility < 1.5f)
+            {
+                timerLaserAbility += Time.deltaTime;
+            }
+        }
+
         if (Input.GetKeyDown(KeyCode.Space) && score >= 10)
         {
             actualWeapon = Weapons.DoubleBullet;
+
+            score -= 10;
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && score >= 10)
+        {
+            actualWeapon = Weapons.Laser;
+
+            score -= 10;
+
+            decreaseTimerLaser = true;
         }
     }
 }
@@ -79,5 +109,6 @@ public class Player : MonoBehaviour
 public enum Weapons
 {
     ClassicBullet,
-    DoubleBullet
+    DoubleBullet,
+    Laser
 }

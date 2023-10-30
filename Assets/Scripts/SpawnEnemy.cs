@@ -6,6 +6,7 @@ public class SpawnEnemy : MonoBehaviour
 {
 
     public float timer;
+    public float timerDifficulty;
 
     public float minTime;
     public float maxTime;
@@ -26,7 +27,7 @@ public class SpawnEnemy : MonoBehaviour
     {
         timer -= Time.deltaTime;
 
-        Debug.Log(timer);
+        timerDifficulty += Time.deltaTime;
 
         if (timer<= 0)
         {
