@@ -21,12 +21,14 @@ public class SceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // change le texte des UI en fonction du temps
         UIscore.text = "Energy : " + myPlayer.score;
         UIhealth.text = "Health : " + myPlayer.health;
     }
 
     void SpawnRandomEnemy()
     {
+        // Position du spawn
         Vector3 spawnPos = new Vector3(Random.Range(library.limitL.position.x, library.limitR.position.x), library.limitT.position.y, library.limitT.position.y);
 
         Instantiate(library.alienPrefab, spawnPos,

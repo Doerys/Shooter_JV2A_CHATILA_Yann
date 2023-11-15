@@ -194,7 +194,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 339635138}
-  - component: {fileID: 339635139}
   m_Layer: 0
   m_Name: AliensSpawners
   m_TagString: Untagged
@@ -225,25 +224,6 @@ Transform:
   - {fileID: 955387237}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &339635139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 339635137}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3dc65ef2c57ce341899387e359b88ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timer: 0
-  timerDifficulty: 0
-  minTime: 0
-  maxTime: 0
-  createMinions: 0
-  prefabAlien: {fileID: 0}
-  prefabBossAlien: {fileID: 0}
 --- !u!1001 &458555606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -897,6 +877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a83c22b32dead749948ae2b29252a82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bigBullet: {fileID: 6470470209835675063, guid: b3ed00773ef43c54c8d6e688122abf3f, type: 3}
   bullet: {fileID: 6470470209835675063, guid: a56b1226008b30644bcf65814b9bb2e6, type: 3}
   laserPrefab: {fileID: 8415671329770369628, guid: a28993ad4b4a47543b7e022da8a7cda7, type: 3}
   parent: {fileID: 234670887}
@@ -904,6 +885,7 @@ MonoBehaviour:
   limitR: {fileID: 1899504735}
   score: 10
   health: 5
+  pauseMenu: 0
   actualWeapon: 0
   alienRemain: 48
 --- !u!60 &983346838
@@ -1642,10 +1624,6 @@ PrefabInstance:
     - target: {fileID: 6434792609425746637, guid: 138cec8297510694790ba48ff7a58bec, type: 3}
       propertyPath: m_Name
       value: SpawnAliens
-      objectReference: {fileID: 0}
-    - target: {fileID: 6924663992752485205, guid: 138cec8297510694790ba48ff7a58bec, type: 3}
-      propertyPath: minTime
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

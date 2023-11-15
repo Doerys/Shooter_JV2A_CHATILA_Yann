@@ -129,6 +129,7 @@ MonoBehaviour:
   myPlayer: {fileID: 0}
   bonusRigibody: {fileID: 8016891965984242738}
   library: {fileID: 0}
+  speedBonus: 5
 --- !u!58 &1916929683410252379
 CircleCollider2D:
   m_ObjectHideFlags: 0

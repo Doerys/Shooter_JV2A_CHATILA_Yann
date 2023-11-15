@@ -44,9 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3dc65ef2c57ce341899387e359b88ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
-  minTime: 2
-  maxTime: 5
+  timerSpawn: 0
+  timerDifficulty: 0
+  minTime: 5
+  maxTime: 10
   createMinions: 0
   prefabAlien: {fileID: 6128441405271233860, guid: 380c184ecf7028c47902e62eb91c4e93, type: 3}
   prefabBossAlien: {fileID: 5739905567070744167, guid: d6d672cd36405024c9974fe24ea83db8, type: 3}
+  myPlayer: {fileID: 0}

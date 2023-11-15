@@ -30,7 +30,7 @@ public class Laser : MonoBehaviour
 
         float yPosition = myPlayer.transform.position.y;
 
-        transform.position.y = yPosition;
+        //transform.position.y = yPosition;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -8,6 +8,8 @@ TagManager:
   - boss
   - classicBullet
   - explosiveBullet
+  - shooter
+  - alienBullet
   layers:
   - Default
   - TransparentFX
