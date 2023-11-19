@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5144115588052714144}
   m_Layer: 0
   m_Name: Bullet Alien
-  m_TagString: classicBullet
+  m_TagString: alienBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -162,11 +162,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c9e90b22d5293a4894afc94eb6acbc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedBullet: -12
+  speedBullet: 6
   typeBullet: 
   bonusPrefab: {fileID: 259293015754129458, guid: a1db92bb555429b4e9a19033b69b6b22, type: 3}
   myPlayer: {fileID: 0}
   library: {fileID: 0}
+  functionLibrary: {fileID: 0}
 --- !u!96 &5144115588052714144
 TrailRenderer:
   serializedVersion: 3

@@ -167,6 +167,8 @@ MonoBehaviour:
   bonusPrefab: {fileID: 259293015754129458, guid: a1db92bb555429b4e9a19033b69b6b22, type: 3}
   myPlayer: {fileID: 0}
   library: {fileID: 0}
+  functionLibrary: {fileID: 0}
+  prefabExplosionParticleEmitter: {fileID: 2128341044101785347, guid: bccf5889b3d796246b0c256ea692830e, type: 3}
 --- !u!96 &5144115588052714144
 TrailRenderer:
   serializedVersion: 3

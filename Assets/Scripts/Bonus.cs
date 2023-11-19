@@ -4,50 +4,58 @@ using UnityEngine;
 
 public class Bonus : MonoBehaviour
 {
+    public FunctionLibrary functionLibrary;
     public Player myPlayer;
     public Rigidbody2D bonusRigibody;
     public VariableLibrary library;
 
     public float speedBonus;
-    private float currentSpeedBonus;
+    public float currentSpeedBonus;
+
+    public Vector3 bonusDirection = Vector3.down;
 
     // Start is called before the first frame update
     void Start()
     {
         myPlayer = FindAnyObjectByType<Player>();
-        library = FindObjectOfType<VariableLibrary>();
+        library = FindAnyObjectByType<VariableLibrary>();
+        functionLibrary = FindAnyObjectByType<FunctionLibrary>();
+        bonusRigibody = gameObject.GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        // si le bonus sort de l'écran, il disparaît
+        // si le bonus sort de l'ï¿½cran, il disparaï¿½t
         if (transform.position.y < library.limitB.position.y)
         {
             Destroy(gameObject);
         }
 
-        // si le menu de pause du joueur est activé, le bonus cesse de tomber
+        // si le menu de pause du joueur est activï¿½, le bonus cesse de tomber
 
-        bonusRigibody.velocity = Vector3.down * currentSpeedBonus;
-        
+        functionLibrary.Move(myPlayer, currentSpeedBonus, speedBonus, bonusRigibody, bonusDirection);
+
+        /*bonusRigibody.velocity = bonusDirection * currentSpeedBonus;
+
         if (myPlayer.pauseMenu)
         {
             currentSpeedBonus = 0;
         }
+        
         else
         {
             currentSpeedBonus = speedBonus;
-        }
+        }*/
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // si le bonus trigger le player, il disparaît et incrémente son score
-        myPlayer = collision.gameObject.GetComponent<Player>();
-        if (myPlayer == true)
+        // si le bonus trigger le player, il disparaï¿½t et incrï¿½mente son score
+        Player myPlayerCollision = collision.gameObject.GetComponent<Player>();
+        if (myPlayerCollision != null)
         {
-            myPlayer.score++;
+            myPlayerCollision.score++;
             Destroy(gameObject);
         }
     }

@@ -32,10 +32,10 @@ public class SpawnEnemy : MonoBehaviour
     {
         if (!myPlayer.pauseMenu)
         {
-            // progression du temps au fur et à mesure du temps
+            // progression du temps au fur et ï¿½ mesure du temps
             timerSpawn -= Time.deltaTime;
 
-            // permet d'instancier si on fait poper des mobs très puissantS
+            // permet d'instancier si on fait poper des mobs trï¿½s puissantS
 
             createMinions = Random.Range(0, 9);
 
@@ -53,7 +53,6 @@ public class SpawnEnemy : MonoBehaviour
                 // creation boss
                 else if (createMinions == 7)
                 {
-                    Debug.Log("CREATION SHOOTER");
                     Instantiate(prefabShooterAlien, transform.position, transform.rotation);
                     timerSpawn = Random.Range(minTime, maxTime);
                 }

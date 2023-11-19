@@ -37,7 +37,7 @@ public class Alien : MonoBehaviour
             myPlayer.health--;
         }
 
-        // si le menu de pause du joueur est activé, l'alien cesse de se déplacer
+        // si le menu de pause du joueur est activï¿½, l'alien cesse de se dï¿½placer
 
         myRigidbody.velocity = new Vector2(0, -currentSpeedAlien);
 
@@ -52,15 +52,13 @@ public class Alien : MonoBehaviour
 
         if (gameObject.tag == "shooter")
         {
-            Instantiate(alienBulletPrefab, transform.position, transform.rotation);
+            timerShoot += Time.deltaTime;
+
+            if (timerShoot >= 2.5f){
+                Instantiate(alienBulletPrefab, transform.position, transform.rotation);
+                timerShoot = 0;
+            }
         }
-
-        /*if ()
-        {
-            bulletTimer += Time.deltaTime;
-
-            if ()
-        }*/
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

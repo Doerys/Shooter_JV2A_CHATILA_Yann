@@ -4,31 +4,44 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private Rigidbody2D myRigidbody;
+    private Rigidbody2D bulletRigibody;
     public float speedBullet;
     private float currentSpeedBullet;
 
     public string typeBullet;
 
     public GameObject bonusPrefab;
-
     private Alien myTarget;
-
     public Player myPlayer;
-
+ 
     public VariableLibrary library;
+    public FunctionLibrary functionLibrary;
+
+    public ParticleSystem prefabExplosionParticleEmitter;
 
     private Vector3 directionBullet;
 
     // Start is called before the first frame update
     void Start()
     {
-        // récupérer le Rigidbody de la balle créée
-        myRigidbody = gameObject.GetComponent<Rigidbody2D>();
+        // rï¿½cupï¿½rer le Rigidbody de la balle crï¿½ï¿½e
+        bulletRigibody = gameObject.GetComponent<Rigidbody2D>();
         
-        library = FindObjectOfType<VariableLibrary>();
+        library = FindAnyObjectByType<VariableLibrary>();
+
+        functionLibrary = FindAnyObjectByType<FunctionLibrary>();
 
         myPlayer = FindAnyObjectByType<Player>();
+
+        if (gameObject.tag != "alienBullet")
+        {
+            directionBullet = Vector3.up;           
+        }
+
+        else {
+            directionBullet = Vector3.down;
+        }
+
     }
 
     void Update()
@@ -36,13 +49,11 @@ public class Bullet : MonoBehaviour
 
         if (gameObject.tag != "alienBullet")
         {
-            // si la barre arrive trop haut dans l'espace de jeu, elle est détruit
+            // si la barre arrive trop haut dans l'espace de jeu, elle est dï¿½truit
             if (transform.position.y > library.limitT.position.y)
             {
                 Destroy(gameObject);
-            }
-
-            directionBullet = Vector3.up;           
+            }    
         }
 
         else {
@@ -50,32 +61,23 @@ public class Bullet : MonoBehaviour
             {
                 Destroy(gameObject);
             }
-
-            directionBullet = Vector3.down;
         }
 
-        // si le menu de pause du joueur est activé, la balle cesse de monter
-        myRigidbody.velocity = directionBullet * currentSpeedBullet;
-
-        if (myPlayer.pauseMenu)
-        {
-            currentSpeedBullet = 0;
-        }
-        else
-        {
-            currentSpeedBullet = speedBullet;
-        }
+        functionLibrary.Move(myPlayer, currentSpeedBullet, speedBullet, bulletRigibody, directionBullet);
+        
+        //library.PauseManager(myPlayer, currentSpeedBullet, speedBullet, bulletRigibody, directionBullet);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // si la balle trigger avec un mob
-        if (gameObject.tag != "alienBullet" && (collision.gameObject.tag == "alien" || collision.gameObject.tag == "boss"))
+        if (gameObject.tag != "alienBullet" && (collision.gameObject.tag == "alien" || collision.gameObject.tag == "boss" || collision.gameObject.tag == "shooter"))
         {
+            // on enregistre l'alien
             myTarget = collision.gameObject.GetComponent<Alien>();
 
             // perte de vie du mob
-            myTarget.remainHealth -= 1;
+            myTarget.remainHealth --;
             
             // destruction de la balle
             Destroy(gameObject);
@@ -83,6 +85,8 @@ public class Bullet : MonoBehaviour
             // si le mob n'a plus de vie
             if (myTarget.remainHealth == 0)
             {
+                Instantiate(prefabExplosionParticleEmitter, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
+
                 // destruction
                 Destroy(collision.gameObject);
 

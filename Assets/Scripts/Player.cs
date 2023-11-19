@@ -8,13 +8,18 @@ public class Player : MonoBehaviour
     public GameObject bigBullet;
     public GameObject bullet;
     public GameObject laserPrefab;
+
+    public GameObject bulletButton;
+    public GameObject doubleBulletButton;
+    public GameObject laserButton;
+    public GameObject shieldButton;
+
     public Transform parent;
     public Transform limitL;
     public Transform limitR;
     public int score;
 
-    private float speed = 0.2f;
-    public int health = 5;
+    public int health = 10;
 
     public bool pauseMenu = false;
 
@@ -36,18 +41,11 @@ public class Player : MonoBehaviour
     {
         if (!pauseMenu)
         {
-            // change la position du vaisseau sur l'axe X. Figé sur l'axe Y.
+            // change la position du vaisseau sur l'axe X. Figï¿½ sur l'axe Y.
             Vector2 mousePos = Input.mousePosition;
             mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            mousePos.y = -4.57f;
+            mousePos.y = -3.62f;
             transform.position = mousePos;
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                //active une variable qui pause le jeu, et active un menu.
-
-
-            }
 
             // Clic gauche => tir
             if (Input.GetMouseButtonDown(0))
@@ -115,29 +113,55 @@ public class Player : MonoBehaviour
             }
         }
 
+        //active une variable qui pause le jeu, et active un menu.
+
         if (Input.GetKey(KeyCode.Space))
         {
-
             pauseMenu = true;
 
-            //actualWeapon = Weapons.DoubleBullet;
-
-            //score -= 10;
+            bulletButton.SetActive(true);
+            doubleBulletButton.SetActive(true);
+            laserButton.SetActive(true);
+            shieldButton.SetActive(true);
         }
 
         else
         {
+
+            bulletButton.SetActive(false);
+            doubleBulletButton.SetActive(false);
+            laserButton.SetActive(false);
+            shieldButton.SetActive(false);
+
             pauseMenu = false;
         }
-
+    }
+    public void ActivateBullet()
+    {
+        actualWeapon = Weapons.ClassicBullet;
     }
 
+    public void ActivateDoubleBullet()
+    {
+        actualWeapon = Weapons.DoubleBullet;
+    }
+    public void ActivateLaser()
+    {
+        actualWeapon = Weapons.Laser;
+    }
+    public void ActivateShield()
+    {
+        actualWeapon = Weapons.Shield;
+    }
 
 }
+
+
 
 public enum Weapons
 {
     ClassicBullet,
     DoubleBullet,
-    Laser
+    Laser,
+    Shield
 }
