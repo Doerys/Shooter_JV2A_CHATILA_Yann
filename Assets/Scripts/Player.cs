@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
 
     public int alienRemain = 48;
 
-    private float timerLaserAbility;
+    private float timerLaserAbility = 3;
     private bool activeLaser = false;
 
     private float timerShieldAbility;
@@ -85,7 +85,7 @@ public class Player : MonoBehaviour
                     // Si on a le laser
                     case Weapons.Laser:
                         {
-                            if (!activeLaser)
+                            if (timerLaserAbility < 3f)
                             {
                                 Vector3 position = parent.position;
 
@@ -93,7 +93,7 @@ public class Player : MonoBehaviour
 
                                 Instantiate(laserPrefab, position, parent.rotation);
 
-                                timerLaserAbility = 0;
+                                timerLaserAbility = 3f;
                             }
                         }
                         break;

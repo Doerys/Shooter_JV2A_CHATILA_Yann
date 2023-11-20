@@ -18,6 +18,7 @@ public class FunctionLibrary : MonoBehaviour
         
     }
 
+    // Je check si la pause est pressée, et si non, je rajoute de la vélocité.
     public void Move (Player _myPlayer, float _currentSpeed, float _speed, Rigidbody2D _rigidbody, Vector3 _direction) {
 
         _currentSpeed = Pause(_myPlayer, _speed);
@@ -25,30 +26,29 @@ public class FunctionLibrary : MonoBehaviour
         _rigidbody.velocity = _direction * _currentSpeed;
     }
 
+
+    // Si le bouton pause est pressé, la vitesse est nulle
     public float Pause (Player _myPlayer, float _speed)
     {
 
         if (_myPlayer.pauseMenu)
         {
-            //Debug.Log("VITESSE NULLE = " + _currentSpeed
             return 0;
         }
 
         else
         {
-            //Debug.Log("VITESSE NORMALE = " + _currentSpeed
             return _speed;
         }
     }
 
+    // Si un alien trigger, on lui enlève la vie, et on le tue
     public void CheckTrigger(Collider2D _collision)
     {
         Alien myTarget = _collision.gameObject.GetComponent<Alien>();
 
         if (myTarget != null)
         {
-            Debug.Log("CONTACT");
-
             myTarget.remainHealth -= 3;
 
             if (myTarget.remainHealth <= 0)
