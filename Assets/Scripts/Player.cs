@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public GameObject bigBullet;
     public GameObject bullet;
     public GameObject laserPrefab;
+    public GameObject shieldPrefab;
 
     public GameObject bulletButton;
     public GameObject doubleBulletButton;
@@ -27,8 +28,13 @@ public class Player : MonoBehaviour
 
     public int alienRemain = 48;
 
-    private float timerLaserAbility = 3;
-    private bool decreaseTimerLaser = false;
+    private float timerLaserAbility;
+    private bool activeLaser = false;
+
+    private float timerShieldAbility;
+    private bool activeShield = false;
+
+    private Vector3 temporaryPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -41,11 +47,14 @@ public class Player : MonoBehaviour
     {
         if (!pauseMenu)
         {
-            // change la position du vaisseau sur l'axe X. Fig� sur l'axe Y.
-            Vector2 mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            mousePos.y = -3.62f;
-            transform.position = mousePos;
+            if (!activeShield)
+            {
+                // change la position du vaisseau sur l'axe X. Fig� sur l'axe Y.
+                Vector2 mousePos = Input.mousePosition;
+                mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+                mousePos.y = -3.62f;
+                transform.position = mousePos;
+            }
 
             // Clic gauche => tir
             if (Input.GetMouseButtonDown(0))
@@ -60,8 +69,6 @@ public class Player : MonoBehaviour
 
                     // Si on a la Double Bullet
                     case Weapons.DoubleBullet:
-
-                        Vector3 temporaryPosition;
 
                         temporaryPosition = parent.position;
 
@@ -78,7 +85,7 @@ public class Player : MonoBehaviour
                     // Si on a le laser
                     case Weapons.Laser:
                         {
-                            if (timerLaserAbility >= 1.5f)
+                            if (!activeLaser)
                             {
                                 Vector3 position = parent.position;
 
@@ -90,26 +97,50 @@ public class Player : MonoBehaviour
                             }
                         }
                         break;
+
+                    // si on a le shield
+                    case Weapons.Shield:
+                        {
+                            if (!activeShield)
+                            {
+                                temporaryPosition = parent.position;;
+
+                                Instantiate(shieldPrefab, temporaryPosition, parent.rotation);
+
+                                activeShield = true;
+                            }
+                        }
+                        break;
+
                     default:
                         break;
                 }
             }
 
-            if (decreaseTimerLaser)
+            if (activeLaser)
             {
                 if (timerLaserAbility < 1.5f)
                 {
                     timerLaserAbility += Time.deltaTime;
                 }
+                else
+                {
+                    timerLaserAbility = 0f;
+                    activeLaser = false;
+                }
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && score >= 10)
+            if (activeShield)
             {
-                actualWeapon = Weapons.Laser;
-
-                score -= 10;
-
-                decreaseTimerLaser = true;
+                if (timerShieldAbility < 1.5f)
+                {
+                    timerShieldAbility += Time.deltaTime;
+                }
+                else
+                {
+                    timerShieldAbility = 0f;
+                    activeShield = false;
+                }
             }
         }
 

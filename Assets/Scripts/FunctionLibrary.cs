@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FunctionLibrary : MonoBehaviour
 {
+    public GameObject bonusPrefab;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +38,30 @@ public class FunctionLibrary : MonoBehaviour
         {
             //Debug.Log("VITESSE NORMALE = " + _currentSpeed
             return _speed;
+        }
+    }
+
+    public void CheckTrigger(Collider2D _collision)
+    {
+        Alien myTarget = _collision.gameObject.GetComponent<Alien>();
+
+        if (myTarget != null)
+        {
+            Debug.Log("CONTACT");
+
+            myTarget.remainHealth -= 3;
+
+            if (myTarget.remainHealth <= 0)
+            {
+                Destroy(_collision.gameObject);
+
+                int spawnProbability = Random.Range(1, 3);
+
+                if (spawnProbability < 2)
+                {
+                    Instantiate(bonusPrefab, _collision.gameObject.transform.position, _collision.gameObject.transform.rotation);
+                }
+            }
         }
     }
 }

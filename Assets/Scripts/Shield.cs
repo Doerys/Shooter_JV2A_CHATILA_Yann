@@ -2,10 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Laser : MonoBehaviour
+public class Shield : MonoBehaviour
 {
-    Player myPlayer;
-
     private float timer;
 
     private FunctionLibrary functionLibrary;
@@ -13,8 +11,6 @@ public class Laser : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myPlayer = FindObjectOfType<Player>();
-
         functionLibrary = FindAnyObjectByType<FunctionLibrary>();
     }
 
@@ -27,10 +23,6 @@ public class Laser : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        float yPosition = myPlayer.transform.position.y;
-
-        //transform.position.y = yPosition;
     }
 
     private void OnTriggerStay2D(Collider2D collision)

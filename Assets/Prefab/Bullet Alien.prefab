@@ -96,7 +96,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6470470209835675063}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -168,6 +168,7 @@ MonoBehaviour:
   myPlayer: {fileID: 0}
   library: {fileID: 0}
   functionLibrary: {fileID: 0}
+  prefabExplosionParticleEmitter: {fileID: 0}
 --- !u!96 &5144115588052714144
 TrailRenderer:
   serializedVersion: 3
