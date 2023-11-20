@@ -33,20 +33,7 @@ public class Bonus : MonoBehaviour
         }
 
         // si le menu de pause du joueur est activ�, le bonus cesse de tomber
-
         functionLibrary.Move(myPlayer, currentSpeedBonus, speedBonus, bonusRigibody, bonusDirection);
-
-        /*bonusRigibody.velocity = bonusDirection * currentSpeedBonus;
-
-        if (myPlayer.pauseMenu)
-        {
-            currentSpeedBonus = 0;
-        }
-        
-        else
-        {
-            currentSpeedBonus = speedBonus;
-        }*/
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -55,7 +42,7 @@ public class Bonus : MonoBehaviour
         Player myPlayerCollision = collision.gameObject.GetComponent<Player>();
         if (myPlayerCollision != null)
         {
-            myPlayerCollision.score++;
+            myPlayerCollision.energy++;
             Destroy(gameObject);
         }
     }

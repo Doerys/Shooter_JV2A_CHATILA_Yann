@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class SceneManager : MonoBehaviour
 {
     public Player myPlayer;
-    public int alienRemain = 48;
     public TextMeshProUGUI UIscore;
-    public TextMeshProUGUI UIhealth;
+    public Image healthBar ;
 
     public VariableLibrary library;
 
@@ -22,8 +22,10 @@ public class SceneManager : MonoBehaviour
     void Update()
     {
         // change le texte des UI en fonction du temps
-        UIscore.text = "Energy : " + myPlayer.score;
-        UIhealth.text = "Health : " + myPlayer.health;
+        UIscore.text = myPlayer.energy.ToString();
+        healthBar.fillAmount = myPlayer.health * 10;
+
+        Debug.Log(healthBar.fillAmount);
     }
 
     void SpawnRandomEnemy()

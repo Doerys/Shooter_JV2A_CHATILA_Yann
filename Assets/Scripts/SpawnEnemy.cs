@@ -6,11 +6,12 @@ public class SpawnEnemy : MonoBehaviour
 {
 
     public float timerSpawn;
+    private float timerDifficulty;
 
     public float minTime;
     public float maxTime;
 
-    public int createMinions = 0;
+    private int randomTypeAlien;
 
     public GameObject prefabAlien;
     public GameObject prefabBossAlien;
@@ -37,30 +38,32 @@ public class SpawnEnemy : MonoBehaviour
 
             // permet d'instancier si on fait poper des mobs tr�s puissantS
 
-            createMinions = Random.Range(0, 9);
+            randomTypeAlien = Random.Range(0, 9);
 
             if (timerSpawn <= 0)
             {
-                timerSpawn = Random.Range(minTime, maxTime);
+                timerSpawn = Random.Range(minTime, maxTime) - timerDifficulty;
+
+                if (timerDifficulty < 5)
+                {
+                    timerDifficulty += .5f;
+                }
 
                 // creation aliens
-                if (createMinions == 6)
+                if (randomTypeAlien == 6)
                 {
                     Instantiate(prefabBossAlien, transform.position, transform.rotation);
-                    timerSpawn = Random.Range(minTime, maxTime);
                 }
 
                 // creation boss
-                else if (createMinions == 7)
+                else if (randomTypeAlien == 7)
                 {
                     Instantiate(prefabShooterAlien, transform.position, transform.rotation);
-                    timerSpawn = Random.Range(minTime, maxTime);
                 }
                 
                 else
                 {
                     Instantiate(prefabAlien, transform.position, transform.rotation);
-                    timerSpawn = Random.Range(minTime, maxTime);
                 }
             }
         }

@@ -10,6 +10,8 @@ TagManager:
   - explosiveBullet
   - shooter
   - alienBullet
+  - laser
+  - shield
   layers:
   - Default
   - TransparentFX

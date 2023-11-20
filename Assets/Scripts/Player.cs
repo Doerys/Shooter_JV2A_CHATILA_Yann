@@ -5,7 +5,6 @@ using TMPro;
 
 public class Player : MonoBehaviour
 {
-    public GameObject bigBullet;
     public GameObject bullet;
     public GameObject laserPrefab;
     public GameObject shieldPrefab;
@@ -18,9 +17,9 @@ public class Player : MonoBehaviour
     public Transform parent;
     public Transform limitL;
     public Transform limitR;
-    public int score;
+    public int energy;
 
-    public int health = 10;
+    public int health;
 
     public bool pauseMenu = false;
 
@@ -28,7 +27,7 @@ public class Player : MonoBehaviour
 
     public int alienRemain = 48;
 
-    private float timerLaserAbility = 3;
+    private float timerLaserAbility;
     private bool activeLaser = false;
 
     private float timerShieldAbility;
@@ -47,14 +46,11 @@ public class Player : MonoBehaviour
     {
         if (!pauseMenu)
         {
-            if (!activeShield)
-            {
-                // change la position du vaisseau sur l'axe X. Fig� sur l'axe Y.
-                Vector2 mousePos = Input.mousePosition;
-                mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-                mousePos.y = -3.62f;
-                transform.position = mousePos;
-            }
+            // change la position du vaisseau sur l'axe X. Fig� sur l'axe Y.
+            Vector2 mousePos = Input.mousePosition;
+            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+            mousePos.y = -3.62f;
+            transform.position = mousePos;
 
             // Clic gauche => tir
             if (Input.GetMouseButtonDown(0))
@@ -64,7 +60,7 @@ public class Player : MonoBehaviour
                 {
                     // Si on a l'actuelle Weapon
                     case Weapons.ClassicBullet:
-                        Instantiate(bigBullet, parent.position, parent.rotation);
+                        Instantiate(bullet, parent.position, parent.rotation);
                         break;
 
                     // Si on a la Double Bullet
@@ -73,6 +69,8 @@ public class Player : MonoBehaviour
                         temporaryPosition = parent.position;
 
                         temporaryPosition.x -= 1;
+
+                        energy--;
 
                         for (int i = 0; i < 2; i++)
                         {
@@ -85,15 +83,19 @@ public class Player : MonoBehaviour
                     // Si on a le laser
                     case Weapons.Laser:
                         {
-                            if (timerLaserAbility < 3f)
+                            if (!activeLaser)
                             {
-                                Vector3 position = parent.position;
+                                energy -= 5;
 
-                                position.y = parent.position.y + 2;
+                                Vector3 position = transform.position;
 
-                                Instantiate(laserPrefab, position, parent.rotation);
+                                position.y = transform.position.y + 2;
 
-                                timerLaserAbility = 3f;
+                                Instantiate(laserPrefab, position, transform.rotation);
+
+                                timerLaserAbility = 2f;
+
+                                activeLaser = true;
                             }
                         }
                         break;
@@ -103,9 +105,9 @@ public class Player : MonoBehaviour
                         {
                             if (!activeShield)
                             {
-                                temporaryPosition = parent.position;;
+                                energy -= 10;
 
-                                Instantiate(shieldPrefab, temporaryPosition, parent.rotation);
+                                Instantiate(shieldPrefab, transform.position, transform.rotation);
 
                                 activeShield = true;
                             }
@@ -119,20 +121,19 @@ public class Player : MonoBehaviour
 
             if (activeLaser)
             {
-                if (timerLaserAbility < 1.5f)
+                if (timerLaserAbility < 2f)
                 {
                     timerLaserAbility += Time.deltaTime;
                 }
                 else
                 {
-                    timerLaserAbility = 0f;
                     activeLaser = false;
                 }
             }
 
             if (activeShield)
             {
-                if (timerShieldAbility < 1.5f)
+                if (timerShieldAbility < 2f)
                 {
                     timerShieldAbility += Time.deltaTime;
                 }
@@ -165,6 +166,11 @@ public class Player : MonoBehaviour
             shieldButton.SetActive(false);
 
             pauseMenu = false;
+        }
+
+        if (health <= 0)
+        {
+            Destroy(gameObject);
         }
     }
     public void ActivateBullet()

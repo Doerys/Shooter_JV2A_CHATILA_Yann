@@ -45,9 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timerSpawn: 0
-  minTime: 5
+  minTime: 3
   maxTime: 10
-  createMinions: 0
   prefabAlien: {fileID: 6128441405271233860, guid: 380c184ecf7028c47902e62eb91c4e93, type: 3}
   prefabBossAlien: {fileID: 5739905567070744167, guid: d6d672cd36405024c9974fe24ea83db8, type: 3}
   prefabShooterAlien: {fileID: 5345066076026085828, guid: 82244bab4a4372347b8556a007c53a88, type: 3}

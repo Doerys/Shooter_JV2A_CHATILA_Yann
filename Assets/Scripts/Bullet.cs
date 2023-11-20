@@ -17,8 +17,6 @@ public class Bullet : MonoBehaviour
     public VariableLibrary library;
     public FunctionLibrary functionLibrary;
 
-    public ParticleSystem prefabExplosionParticleEmitter;
-
     private Vector3 directionBullet;
 
     // Start is called before the first frame update
@@ -71,33 +69,9 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // si la balle trigger avec un mob
-        if (gameObject.tag != "alienBullet" && (collision.gameObject.tag == "alien" || collision.gameObject.tag == "boss" || collision.gameObject.tag == "shooter"))
+        if (gameObject.tag != "alienBullet")
         {
-            // on enregistre l'alien
-            myTarget = collision.gameObject.GetComponent<Alien>();
-
-            // perte de vie du mob
-            myTarget.remainHealth --;
-            
-            // destruction de la balle
-            Destroy(gameObject);
-
-            // si le mob n'a plus de vie
-            if (myTarget.remainHealth == 0)
-            {
-                Instantiate(prefabExplosionParticleEmitter, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
-
-                // destruction
-                Destroy(collision.gameObject);
-
-                // production de bonus
-                int spawnProbability = Random.Range(1, 3);
-
-                if (spawnProbability < 2)
-                {
-                    Instantiate(bonusPrefab, collision.gameObject.transform.position, collision.gameObject.transform.rotation);
-                }
-            }
+            functionLibrary.CheckTriggerWeapon(collision);
         }
 
         else if (gameObject.tag == "alienBullet" && collision.gameObject.tag == "Player")

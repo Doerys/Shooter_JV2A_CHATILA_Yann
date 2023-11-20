@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class FunctionLibrary : MonoBehaviour
 {
     public GameObject bonusPrefab;
+
+    public ParticleSystem prefabExplosionParticleEmitter;
 
     // Start is called before the first frame update
     void Start()
@@ -42,8 +45,21 @@ public class FunctionLibrary : MonoBehaviour
         }
     }
 
-    // Si un alien trigger, on lui enlève la vie, et on le tue
-    public void CheckTrigger(Collider2D _collision)
+    // si un alien trigger, on lui enlève de la vie
+    public void CheckTriggerWeapon(Collider2D _collision)
+    {
+        Alien myTarget = _collision.gameObject.GetComponent<Alien>();
+
+        if (myTarget != null)
+        {
+            myTarget.remainHealth -= 1;
+
+            checkEnemyDeath(myTarget);
+        }
+    }
+
+    // si un alien trigger, on lui enlève de la vie
+    public void CheckTriggerSpecialWeapon(Collider2D _collision)
     {
         Alien myTarget = _collision.gameObject.GetComponent<Alien>();
 
@@ -51,16 +67,24 @@ public class FunctionLibrary : MonoBehaviour
         {
             myTarget.remainHealth -= 3;
 
-            if (myTarget.remainHealth <= 0)
+            checkEnemyDeath(myTarget);
+        }
+    }
+
+    // Si un alien n'a plus de vie, on le tue
+    public void checkEnemyDeath(Alien _myTarget)
+    {
+        if (_myTarget.remainHealth <= 0)
+        {
+            Instantiate(prefabExplosionParticleEmitter, _myTarget.gameObject.transform.position, _myTarget.gameObject.transform.rotation);
+
+            Destroy(_myTarget.gameObject);
+
+            int spawnProbability = Random.Range(1, 3);
+
+            if (spawnProbability < 2)
             {
-                Destroy(_collision.gameObject);
-
-                int spawnProbability = Random.Range(1, 3);
-
-                if (spawnProbability < 2)
-                {
-                    Instantiate(bonusPrefab, _collision.gameObject.transform.position, _collision.gameObject.transform.rotation);
-                }
+                Instantiate(bonusPrefab, _myTarget.gameObject.transform.position, _myTarget.gameObject.transform.rotation);
             }
         }
     }
