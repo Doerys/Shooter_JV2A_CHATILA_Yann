@@ -25,7 +25,7 @@ public class SpecialWeapon : MonoBehaviour
     {
         timer += Time.deltaTime;
 
-        if (timer >= 2f)
+        if ((gameObject.tag == "laser" && timer >= 2f) || (gameObject.tag == "shield" && timer >= 4f))
         {
             Destroy(gameObject);
         }

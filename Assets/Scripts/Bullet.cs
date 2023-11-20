@@ -62,8 +62,6 @@ public class Bullet : MonoBehaviour
         }
 
         functionLibrary.Move(myPlayer, currentSpeedBullet, speedBullet, bulletRigibody, directionBullet);
-        
-        //library.PauseManager(myPlayer, currentSpeedBullet, speedBullet, bulletRigibody, directionBullet);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -71,7 +69,7 @@ public class Bullet : MonoBehaviour
         // si la balle trigger avec un mob
         if (gameObject.tag != "alienBullet")
         {
-            functionLibrary.CheckTriggerWeapon(collision);
+            functionLibrary.CheckTriggerWeapon(collision, gameObject);
         }
 
         else if (gameObject.tag == "alienBullet" && collision.gameObject.tag == "Player")

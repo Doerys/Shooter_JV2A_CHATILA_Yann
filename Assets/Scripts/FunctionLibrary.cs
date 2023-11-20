@@ -9,6 +9,8 @@ public class FunctionLibrary : MonoBehaviour
 
     public ParticleSystem prefabExplosionParticleEmitter;
 
+    public Player myPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,12 +48,14 @@ public class FunctionLibrary : MonoBehaviour
     }
 
     // si un alien trigger, on lui enlève de la vie
-    public void CheckTriggerWeapon(Collider2D _collision)
+    public void CheckTriggerWeapon(Collider2D _collision, GameObject _bullet)
     {
         Alien myTarget = _collision.gameObject.GetComponent<Alien>();
 
         if (myTarget != null)
         {
+            Destroy(_bullet);
+
             myTarget.remainHealth -= 1;
 
             checkEnemyDeath(myTarget);
@@ -79,6 +83,19 @@ public class FunctionLibrary : MonoBehaviour
             Instantiate(prefabExplosionParticleEmitter, _myTarget.gameObject.transform.position, _myTarget.gameObject.transform.rotation);
 
             Destroy(_myTarget.gameObject);
+
+            if (_myTarget.tag == "boss")
+            {
+                myPlayer.score += 3;
+            }
+            else if (_myTarget.tag == "shooter")
+            {
+                myPlayer.score += 2;
+            }
+            else if (_myTarget.tag == "alien")
+            {
+                myPlayer.score ++;
+            }
 
             int spawnProbability = Random.Range(1, 3);
 

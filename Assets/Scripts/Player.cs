@@ -17,9 +17,10 @@ public class Player : MonoBehaviour
     public Transform parent;
     public Transform limitL;
     public Transform limitR;
-    public int energy;
 
+    public int energy;
     public int health;
+    public int score;
 
     public bool pauseMenu = false;
 
@@ -46,11 +47,16 @@ public class Player : MonoBehaviour
     {
         if (!pauseMenu)
         {
+            Debug.Log(limitL.position.x + " EST INFERIEUR A " + Input.mousePosition.x + " EST INFERIEUR A " + limitR.position.x);
+
             // change la position du vaisseau sur l'axe X. Fig� sur l'axe Y.
-            Vector2 mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-            mousePos.y = -3.62f;
-            transform.position = mousePos;
+            if (Input.mousePosition.x > limitL.position.x || Input.mousePosition.x < limitR.position.x)
+            {
+                Vector2 mousePos = Input.mousePosition;
+                mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+                mousePos.y = -3.62f;
+                transform.position = mousePos;
+            }
 
             // Clic gauche => tir
             if (Input.GetMouseButtonDown(0))
@@ -66,18 +72,28 @@ public class Player : MonoBehaviour
                     // Si on a la Double Bullet
                     case Weapons.DoubleBullet:
 
-                        temporaryPosition = parent.position;
-
-                        temporaryPosition.x -= 1;
-
-                        energy--;
-
-                        for (int i = 0; i < 2; i++)
+                        if (energy >= 1)
                         {
-                            Instantiate(bullet, temporaryPosition, parent.rotation);
+                            temporaryPosition = parent.position;
 
-                            temporaryPosition.x += 2;
+                            temporaryPosition.x -= 1;
+
+                            energy--;
+
+                            for (int i = 0; i < 2; i++)
+                            {
+                                Instantiate(bullet, temporaryPosition, parent.rotation);
+
+                                temporaryPosition.x += 2;
+                            }
                         }
+
+                        else
+                        {
+                            actualWeapon = Weapons.ClassicBullet;
+                            Instantiate(bullet, parent.position, parent.rotation);
+                        }
+
                         break;
 
                     // Si on a le laser
@@ -85,17 +101,26 @@ public class Player : MonoBehaviour
                         {
                             if (!activeLaser)
                             {
-                                energy -= 5;
+                                if (energy >= 5)
+                                {
+                                    energy -= 5;
 
-                                Vector3 position = transform.position;
+                                    Vector3 position = transform.position;
 
-                                position.y = transform.position.y + 2;
+                                    position.y = transform.position.y + 2;
 
-                                Instantiate(laserPrefab, position, transform.rotation);
+                                    Instantiate(laserPrefab, position, transform.rotation);
 
-                                timerLaserAbility = 2f;
+                                    timerLaserAbility = 2f;
 
-                                activeLaser = true;
+                                    activeLaser = true;
+                                }
+
+                                else
+                                {
+                                    actualWeapon = Weapons.ClassicBullet;
+                                    Instantiate(bullet, parent.position, parent.rotation);
+                                }
                             }
                         }
                         break;
@@ -105,11 +130,20 @@ public class Player : MonoBehaviour
                         {
                             if (!activeShield)
                             {
-                                energy -= 10;
+                                if (energy >= 10)
+                                {
+                                    energy -= 10;
 
-                                Instantiate(shieldPrefab, transform.position, transform.rotation);
+                                    Instantiate(shieldPrefab, transform.position, transform.rotation);
 
-                                activeShield = true;
+                                    activeShield = true;
+                                }
+
+                                else
+                                {
+                                    actualWeapon = Weapons.ClassicBullet;
+                                    Instantiate(bullet, parent.position, parent.rotation);
+                                }
                             }
                         }
                         break;
@@ -133,7 +167,7 @@ public class Player : MonoBehaviour
 
             if (activeShield)
             {
-                if (timerShieldAbility < 2f)
+                if (timerShieldAbility < 4f)
                 {
                     timerShieldAbility += Time.deltaTime;
                 }
