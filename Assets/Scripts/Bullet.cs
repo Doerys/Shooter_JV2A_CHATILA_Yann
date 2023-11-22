@@ -74,7 +74,10 @@ public class Bullet : MonoBehaviour
 
         else if (gameObject.tag == "alienBullet" && collision.gameObject.tag == "Player")
         {
-            myPlayer.health--;
+            if (!myPlayer.isInvulnerable)
+            {
+                functionLibrary.InvulnerabilityFrames(myPlayer);
+            }
 
             Destroy(gameObject);
         }

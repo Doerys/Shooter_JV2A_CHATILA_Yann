@@ -18,9 +18,14 @@ public class Player : MonoBehaviour
     public Transform limitL;
     public Transform limitR;
 
+    public Renderer myRenderer;
+
     public int energy;
     public int health;
     public int score;
+
+    public bool isInvulnerable;
+    private float timerInvulnerabilityFrames = 4f;
 
     public bool pauseMenu = false;
 
@@ -36,6 +41,8 @@ public class Player : MonoBehaviour
 
     private Vector3 temporaryPosition;
 
+    public ParticleSystem galaxyParticles; 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,8 +54,6 @@ public class Player : MonoBehaviour
     {
         if (!pauseMenu)
         {
-            Debug.Log(limitL.position.x + " EST INFERIEUR A " + Input.mousePosition.x + " EST INFERIEUR A " + limitR.position.x);
-
             // change la position du vaisseau sur l'axe X. Fig� sur l'axe Y.
             if (Input.mousePosition.x > limitL.position.x || Input.mousePosition.x < limitR.position.x)
             {
@@ -183,6 +188,11 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space))
         {
+            if (!galaxyParticles.isPaused)
+            {
+                galaxyParticles.Pause();
+            }
+
             pauseMenu = true;
 
             bulletButton.SetActive(true);
@@ -193,6 +203,10 @@ public class Player : MonoBehaviour
 
         else
         {
+            if (galaxyParticles.isPaused)
+            {
+                galaxyParticles.Play();
+            }
 
             bulletButton.SetActive(false);
             doubleBulletButton.SetActive(false);
@@ -204,7 +218,36 @@ public class Player : MonoBehaviour
 
         if (health <= 0)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+        }
+
+        if (isInvulnerable)
+        {
+            timerInvulnerabilityFrames -= Time.deltaTime;
+
+            Debug.Log("TAPER");
+
+            if (timerInvulnerabilityFrames > 0f)
+            {
+                int currentInvulnerabilityFrame = (int)timerInvulnerabilityFrames % 2;
+
+                if (currentInvulnerabilityFrame == 0)
+                {
+                    Debug.Log("INVISIBLE" + currentInvulnerabilityFrame);
+                    myRenderer.enabled = false;
+                }
+                else
+                {
+                    Debug.Log("VISIBLE" + currentInvulnerabilityFrame);
+                    myRenderer.enabled = true;
+                }
+            }
+
+            else
+            {
+                timerInvulnerabilityFrames = 3f;
+                isInvulnerable = false;
+            }
         }
     }
     public void ActivateBullet()

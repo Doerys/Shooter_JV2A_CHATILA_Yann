@@ -58,7 +58,7 @@ public class FunctionLibrary : MonoBehaviour
 
             myTarget.remainHealth -= 1;
 
-            checkEnemyDeath(myTarget);
+            CheckEnemyDeath(myTarget);
         }
     }
 
@@ -71,12 +71,12 @@ public class FunctionLibrary : MonoBehaviour
         {
             myTarget.remainHealth -= 3;
 
-            checkEnemyDeath(myTarget);
+            CheckEnemyDeath(myTarget);
         }
     }
 
     // Si un alien n'a plus de vie, on le tue
-    public void checkEnemyDeath(Alien _myTarget)
+    public void CheckEnemyDeath(Alien _myTarget)
     {
         if (_myTarget.remainHealth <= 0)
         {
@@ -104,5 +104,12 @@ public class FunctionLibrary : MonoBehaviour
                 Instantiate(bonusPrefab, _myTarget.gameObject.transform.position, _myTarget.gameObject.transform.rotation);
             }
         }
+    }
+
+    public void InvulnerabilityFrames(Player _myPlayer)
+    {
+        _myPlayer.health--;
+
+        _myPlayer.isInvulnerable = true;
     }
 }

@@ -34,7 +34,16 @@ public class Alien : MonoBehaviour
         if (transform.position.y < library.limitB.transform.position.y)
         {
             Destroy(gameObject);
-            myPlayer.health--;
+
+            if (myPlayer.score >= 2)
+            {
+                myPlayer.score -= 2;
+            }
+
+            else if (myPlayer.score > 0)
+            {
+                myPlayer.score --;
+            }
         }
 
         // si le menu de pause du joueur est activ�, l'alien cesse de se d�placer
