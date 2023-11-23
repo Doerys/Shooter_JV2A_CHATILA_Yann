@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class Player : MonoBehaviour
     public GameObject laserButton;
     public GameObject shieldButton;
 
+    public FunctionLibrary functionLibrary;
+
     public Transform parent;
     public Transform limitL;
     public Transform limitR;
@@ -25,7 +28,8 @@ public class Player : MonoBehaviour
     public int score;
 
     public bool isInvulnerable;
-    private float timerInvulnerabilityFrames = 4f;
+    private float timerInvulnerabilityFrames = 3f;
+    private float currentInvulnerabilityFrame = .10f;
 
     public bool pauseMenu = false;
 
@@ -39,14 +43,18 @@ public class Player : MonoBehaviour
     private float timerShieldAbility;
     private bool activeShield = false;
 
+    public bool isAlive = true;
+
     private Vector3 temporaryPosition;
 
-    public ParticleSystem galaxyParticles; 
+    public ParticleSystem galaxyParticles;
 
     // Start is called before the first frame update
     void Start()
     {
+        functionLibrary = FindAnyObjectByType<FunctionLibrary>();
 
+        galaxyParticles = FindObjectOfType<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -219,27 +227,32 @@ public class Player : MonoBehaviour
         if (health <= 0)
         {
             gameObject.SetActive(false);
+            isAlive = false;
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene("GameOverScreen");
         }
 
+        // GESTION DES FRAMES D'INVULNERABILITE
         if (isInvulnerable)
         {
             timerInvulnerabilityFrames -= Time.deltaTime;
 
-            Debug.Log("TAPER");
-
             if (timerInvulnerabilityFrames > 0f)
             {
-                int currentInvulnerabilityFrame = (int)timerInvulnerabilityFrames % 2;
+                currentInvulnerabilityFrame -= Time.deltaTime;
 
-                if (currentInvulnerabilityFrame == 0)
+                if (currentInvulnerabilityFrame > 0f)
                 {
-                    Debug.Log("INVISIBLE" + currentInvulnerabilityFrame);
                     myRenderer.enabled = false;
                 }
-                else
+
+                else if (currentInvulnerabilityFrame < 0f && currentInvulnerabilityFrame > -.10f)
                 {
-                    Debug.Log("VISIBLE" + currentInvulnerabilityFrame);
                     myRenderer.enabled = true;
+                }
+                else if (currentInvulnerabilityFrame < -.10f)
+                {
+                    currentInvulnerabilityFrame = .10f;
                 }
             }
 
@@ -247,7 +260,9 @@ public class Player : MonoBehaviour
             {
                 timerInvulnerabilityFrames = 3f;
                 isInvulnerable = false;
+                myRenderer.enabled = true;
             }
+
         }
     }
     public void ActivateBullet()
@@ -269,8 +284,6 @@ public class Player : MonoBehaviour
     }
 
 }
-
-
 
 public enum Weapons
 {

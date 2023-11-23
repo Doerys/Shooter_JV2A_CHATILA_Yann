@@ -156,7 +156,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.31132078, g: 0, b: 0.022479087, a: 1}
   m_FlipX: 0
@@ -352,4 +352,5 @@ MonoBehaviour:
   myPlayer: {fileID: 0}
   speedAlien: 1
   library: {fileID: 0}
+  prefabExplosionParticleEmitter: {fileID: 2128341044101785347, guid: bccf5889b3d796246b0c256ea692830e, type: 3}
   timerShoot: 0

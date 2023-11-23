@@ -32,6 +32,11 @@ public class Bonus : MonoBehaviour
             Destroy(gameObject);
         }
 
+        if (!myPlayer.isAlive)
+        {
+            Destroy(gameObject);
+        }
+
         // si le menu de pause du joueur est activ�, le bonus cesse de tomber
         functionLibrary.Move(myPlayer, currentSpeedBonus, speedBonus, bonusRigibody, bonusDirection);
     }

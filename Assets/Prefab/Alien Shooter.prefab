@@ -354,6 +354,7 @@ MonoBehaviour:
   myPlayer: {fileID: 0}
   speedAlien: 1
   library: {fileID: 0}
+  prefabExplosionParticleEmitter: {fileID: 2128341044101785347, guid: bccf5889b3d796246b0c256ea692830e, type: 3}
   timerShoot: 0
 --- !u!1 &7328552987120563194
 GameObject:

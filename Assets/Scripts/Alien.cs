@@ -16,6 +16,10 @@ public class Alien : MonoBehaviour
 
     public VariableLibrary library;
 
+    private FunctionLibrary functionLibrary;
+
+    public ParticleSystem prefabExplosionParticleEmitter;
+
     public float timerShoot;
 
     // Start is called before the first frame update
@@ -26,6 +30,8 @@ public class Alien : MonoBehaviour
         myPlayer = FindAnyObjectByType<Player>();
 
         library = FindAnyObjectByType<VariableLibrary>();
+
+        functionLibrary = FindAnyObjectByType<FunctionLibrary>();
     }
 
     // Update is called once per frame
@@ -59,6 +65,13 @@ public class Alien : MonoBehaviour
             currentSpeedAlien = speedAlien;
         }
 
+        if (!myPlayer.isAlive)
+        {
+            Instantiate(prefabExplosionParticleEmitter, transform.position, transform.rotation);
+
+            Destroy(gameObject);
+        }
+
         if (gameObject.tag == "shooter")
         {
             timerShoot += Time.deltaTime;
@@ -76,8 +89,13 @@ public class Alien : MonoBehaviour
         {
             myPlayer = collision.gameObject.GetComponent<Player>();
 
-            myPlayer.health--;
-            
+            if (!myPlayer.isInvulnerable)
+            {
+                functionLibrary.InvulnerabilityFrames(myPlayer);
+            }
+
+            Instantiate(prefabExplosionParticleEmitter, transform.position, transform.rotation);
+
             Destroy(gameObject);
         }
     }

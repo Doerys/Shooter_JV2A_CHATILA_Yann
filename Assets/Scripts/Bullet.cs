@@ -11,7 +11,6 @@ public class Bullet : MonoBehaviour
     public string typeBullet;
 
     public GameObject bonusPrefab;
-    private Alien myTarget;
     public Player myPlayer;
  
     public VariableLibrary library;
@@ -62,6 +61,11 @@ public class Bullet : MonoBehaviour
         }
 
         functionLibrary.Move(myPlayer, currentSpeedBullet, speedBullet, bulletRigibody, directionBullet);
+
+        if (!myPlayer.isAlive)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
