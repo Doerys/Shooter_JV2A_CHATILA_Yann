@@ -69,6 +69,7 @@ public class Player : MonoBehaviour
                 mousePos = Camera.main.ScreenToWorldPoint(mousePos);
                 mousePos.y = -3.62f;
                 transform.position = mousePos;
+                
             }
 
             // Clic gauche => tir
